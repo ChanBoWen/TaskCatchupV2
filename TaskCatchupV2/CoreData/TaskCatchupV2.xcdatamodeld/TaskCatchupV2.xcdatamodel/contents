@@ -10,7 +10,14 @@
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="profile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="StudentProfileEntity" inverseName="goalsSet" inverseEntity="StudentProfileEntity"/>
     </entity>
-    <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class"/>
+    <entity name="DailyScheduleEntity" representedClassName="DailyScheduleEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="endTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="startTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="profile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="StudentProfileEntity" inverseName="scheduledEvent" inverseEntity="StudentProfileEntity"/>
+    </entity>
     <entity name="StudentProfileEntity" representedClassName="StudentProfileEntity" syncable="YES" codeGenerationType="class">
         <attribute name="activeVouchersData" optional="YES" attributeType="Binary"/>
         <attribute name="balancePoints" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -20,5 +27,6 @@
         <attribute name="lifetimeXP" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="goalsSet" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DailyGoalEntity" inverseName="profile" inverseEntity="DailyGoalEntity"/>
+        <relationship name="scheduledEvent" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DailyScheduleEntity" inverseName="profile" inverseEntity="DailyScheduleEntity"/>
     </entity>
 </model>
