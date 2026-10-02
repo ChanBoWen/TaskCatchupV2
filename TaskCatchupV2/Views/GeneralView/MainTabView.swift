@@ -23,6 +23,13 @@ struct MainTabView: View {
                 .tabItem {
                     Label("Daily Goals", systemImage: "checkmark.circle")
                 }
+            
+            // Tab 3
+            RedeemItemView()
+                .tabItem {
+                    Label("Redeem", systemImage: "cart")
+                }
+            
         }
     }
 }
