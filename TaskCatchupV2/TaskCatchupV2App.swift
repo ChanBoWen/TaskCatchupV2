@@ -14,7 +14,7 @@ struct TaskCatchupV2App: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            DailyGoalsView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
