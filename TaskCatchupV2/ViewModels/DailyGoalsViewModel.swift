@@ -1,0 +1,108 @@
+//
+//  DailyGoalsViewModel.swift
+//  TaskCatchupV2
+//
+//  Created by Bo Wen Chan on 2/10/2026.
+//
+
+import Foundation
+import Combine
+
+/// ViewModel responsible for managing the state and business logic of the Daily Goals screen.
+///
+class DailyGoalsViewModel: ObservableObject {
+    @Published var profile: StudentProfile?
+    @Published var todayGoals: [DailyGoal] = []
+    @Published var errorMessage: String?
+    @Published var showError: Bool = false
+    
+    private let repository: GoalRepository
+    private let toggleGoalUseCase = ToggleGoalCompletionUseCase()
+    private let addGoalUseCase = AddNewDailyGoalUseCase()
+    private let removeGoalUseCase = RemoveDailyGoalUseCase()
+    
+    // Inject the Core Data repository
+    init(repository: GoalRepository) {
+        self.repository = repository
+        loadData()
+    }
+    
+    // Load the profile and goals from Core Data
+    func loadData() {
+        do {
+            self.profile = try repository.fetchProfile()
+            self.todayGoals = try repository.fetchGoals()
+        } catch {
+            let fallbackError = TaskCatchupError.databaseError(reason: "An unexpected system error occurred")
+            self.errorMessage = fallbackError.localizedDescription
+            self.showError = true
+        }
+    }
+    
+    // Toggles the completion status of a goal and updates the student's profile
+    func toggleGoal(_ goal: DailyGoal) {
+        guard let currentProfile = profile else { return }
+        
+        do {
+            // Execute the business rules
+            let result = try toggleGoalUseCase.execute(goal: goal, profile: currentProfile, allDailyGoals: todayGoals)
+            
+            // Save both the updated goal and the updated profile to Core Data
+            try repository.updateGoal(result.updatedGoal)
+            try repository.updateProfile(result.updatedProfile)
+            
+            // Reload from the database
+            loadData()
+        } catch let error as TaskCatchupError {
+            // Show error if cannot afford penalty
+            self.errorMessage = error.localizedDescription
+            self.showError = true
+        } catch {
+            let fallbackError = TaskCatchupError.databaseError(reason: "Failed to update goal")
+            self.errorMessage = fallbackError.localizedDescription
+            self.showError = true
+        }
+    }
+    
+    // Adds a new goal to today's list
+    func addNewGoal(title: String, category: DailyGoal.GoalCategory, isRecurring: Bool) {
+        do {
+            // Save the newest goal to the database
+            let newGoal = try addGoalUseCase.execute(title: title, category: category, isRecurring: isRecurring)
+            try repository.addGoal(newGoal)
+            
+            // Reload from the database
+            loadData()
+        } catch let error as TaskCatchupError {
+            self.errorMessage = error.localizedDescription
+            self.showError = true
+        } catch {
+            let fallbackError = TaskCatchupError.databaseError(reason: "Failed to add goal")
+            self.errorMessage = fallbackError.localizedDescription
+            self.showError = true
+        }
+    }
+    
+    // Removes a goal and applies the penalty
+    func removeGoal(_ goal: DailyGoal) {
+        guard let currentProfile = profile else { return }
+        
+        do {
+            let updatedProfile = try removeGoalUseCase.execute(goal: goal, profile: currentProfile)
+            
+            // Delete the goal and update the profile penalty in Core Data
+            try repository.deleteGoal(byId: goal.id)
+            try repository.updateProfile(updatedProfile)
+            
+            // Reload from the database
+            loadData()
+        } catch let error as TaskCatchupError {
+            self.errorMessage = error.localizedDescription
+            self.showError = true
+        } catch {
+            let fallbackError = TaskCatchupError.databaseError(reason: "Failed to delete goal")
+            self.errorMessage = fallbackError.localizedDescription
+            self.showError = true
+        }
+    }
+}
