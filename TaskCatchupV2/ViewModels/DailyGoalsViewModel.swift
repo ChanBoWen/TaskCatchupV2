@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import CoreData
 
 /// ViewModel responsible for managing the state and business logic of the Daily Goals screen.
 ///
@@ -22,7 +23,7 @@ class DailyGoalsViewModel: ObservableObject {
     private let removeGoalUseCase = RemoveDailyGoalUseCase()
     
     // Inject the Core Data repository
-    init(repository: GoalRepository) {
+    init(repository: GoalRepository = CoreDataGoalRepository(context: PersistenceController.shared.container.viewContext)) {
         self.repository = repository
         loadData()
     }
