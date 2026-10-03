@@ -51,7 +51,7 @@ struct DailySchedulesView: View {
             
             // Scheduled event list
             ScrollView {
-                VStack(spacing: 20) {
+                VStack(spacing: 10) {
                     ForEach(viewModel.todaySchedule) { event in
                         // Extracted scheduled event row view
                         DailyScheduleRowView(
@@ -62,7 +62,6 @@ struct DailySchedulesView: View {
                         )
                     }
                 }
-                .padding(.bottom, 20)
             }
         }
         // Shows domain errors
