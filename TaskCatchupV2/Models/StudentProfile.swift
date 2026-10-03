@@ -25,8 +25,10 @@ struct StudentProfile: Equatable {
     var activeVouchers: [VoucherType]  // How much active boost cards or vouchers the student has
     
     enum VoucherType: String, Equatable, Codable {
-        case guiltFreeRest = "Guilt-Free Rest Day"
+        case doubleXP = "Double XP Boost"
         case doubleBP = "Double BP Boost"
+        case restDay = "Rest Day Pass"
+        case freeDelete = "Free Delete Voucher"
     }
     
     // Initialiser with default values

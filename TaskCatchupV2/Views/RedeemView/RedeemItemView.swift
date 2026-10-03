@@ -36,26 +36,42 @@ struct RedeemItemView: View {
                     .font(.title)
                     .fontWeight(.bold)
             }
-                
-            Spacer()
+            .padding(.horizontal)
+            .padding(.bottom, 5)
             
+            // Displays available vourchers to redeem in columns
             ScrollView {
-                VStack(spacing: 30) {
-                    // Displays available vourchers to redeem in columns
-                    LazyVGrid(columns: columns, spacing: 20) {
-                        // First voucher
+                LazyVGrid(columns: columns, spacing: 20) {
+                    ForEach(viewModel.storeItems) { item in
                         VStack(spacing: 10) {
-                            Text("Guilt-Free Rest")
+                            // Voucher icon
+                            Image(systemName: item.icon)
+                                .font(.system(size: 35))
+                                .foregroundColor(item.color)
+                                .padding(.top, 10)
+                            
+                            // Voucher name
+                            Text(item.title)
                                 .font(.headline)
                                 .multilineTextAlignment(.center)
-                            Text("Cost: 50 BP")
+                            
+                            // Description
+                            Text(item.description)
+                                .font(.caption2)
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.secondary)
+                                .frame(height: 30)
+                            
+                            // Cost
+                            Text("Cost: \(item.cost) BP")
                                 .font(.subheadline)
                                 .foregroundColor(.orange)
                                 .fontWeight(.bold)
+                                .padding(.vertical, 4)
                             
                             // Purchase voucher button
                             Button(action: {
-                                viewModel.purchaseRestVoucher()
+                                viewModel.purchaseVoucher(type: item.type, cost: item.cost, itemName: item.title)
                             }) {
                                 Text("Redeem")
                                     .fontWeight(.semibold)
@@ -69,29 +85,9 @@ struct RedeemItemView: View {
                         .padding()
                         .background(Color.blue.opacity(0.1))
                         .cornerRadius(12)
-                        
-                        // Dummy data
-                        VStack(spacing: 10) {
-                            Text("Double BP Boost")
-                                .font(.headline)
-                                .multilineTextAlignment(.center)
-                                .foregroundColor(.gray)
-                            Text("Coming Soon")
-                                .font(.caption)
-                                .fontWeight(.bold)
-                                .foregroundColor(.red)
-                                .padding(.horizontal, 8)
-                                .padding(.vertical, 4)
-                                .background(Color.red.opacity(0.2))
-                                .cornerRadius(4)
-                        }
-                        .padding()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(Color.gray.opacity(0.1))
-                        .cornerRadius(12)
                     }
-                    .padding(.horizontal)
                 }
+                .padding(.horizontal)
             }
         }
         // Shows domain errors
@@ -105,7 +101,7 @@ struct RedeemItemView: View {
         .alert("Success!", isPresented: $viewModel.showSuccess) {
             Button("Awesome", role: .cancel) { }
         } message: {
-            Text("You redeemed a Guilt-Free Rest day!")
+            Text(viewModel.successMessage)
         }
     }
 }

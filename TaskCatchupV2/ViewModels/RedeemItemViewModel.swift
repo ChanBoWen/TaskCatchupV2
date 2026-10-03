@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import CoreData
+import SwiftUI
 
 /// ViewModel responsible for managing the state and business logic for the Redeem screen.
 ///
@@ -16,10 +17,19 @@ class RedeemItemViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published var showError: Bool = false
     @Published var showSuccess: Bool = false
+    @Published var successMessage: String = ""
+    
+    // The inventory of the shop
+    @Published var storeItems: [StoreItem] = [
+        StoreItem(type: .doubleXP, title: "Double XP", description: "Earn 2x XP for 24 hours.", cost: 100, icon: "arrow.up.circle.fill", color: .purple),
+        StoreItem(type: .doubleBP, title: "Double BP", description: "Earn 2x BP for 24 hours.", cost: 100, icon: "bitcoinsign.circle.fill", color: .yellow),
+        StoreItem(type: .restDay, title: "Rest Day Pass", description: "Protects your streak if you rest.", cost: 50, icon: "cup.and.saucer.fill", color: .blue),
+        StoreItem(type: .freeDelete, title: "Free Delete", description: "Waives the 20 BP deletion penalty.", cost: 30, icon: "trash.slash.fill", color: .red)
+        ]
     
     private let repository: GoalRepository
     private let purchaseUseCase = PurchaseVoucherUseCase()
-        
+    
     // Inject the Core Data repository
     init(repository: GoalRepository = CoreDataGoalRepository(context: PersistenceController.shared.container.viewContext)) {
         self.repository = repository
@@ -38,15 +48,18 @@ class RedeemItemViewModel: ObservableObject {
     }
     
     // Purchases a voucher
-    func purchaseRestVoucher() {
+    func purchaseVoucher(type: StudentProfile.VoucherType, cost: Int, itemName: String) {
         guard let currentProfile = profile else { return }
         
         do {
             // If BP is not enough, throws error
-            let updatedProfile = try purchaseUseCase.execute(voucher: .guiltFreeRest, cost: 50, profile: currentProfile)
+            let updatedProfile = try purchaseUseCase.execute(voucher: type, cost: cost, profile: currentProfile)
             
-            // Save updated profile to database
+            // Save the newest purchased voucher to the database
             try repository.updateProfile(updatedProfile)
+            
+            // Show success message
+            self.successMessage = "You successfully redeemed: \(itemName)!"
             self.showSuccess = true
             
             // Reload from the database
