@@ -18,6 +18,11 @@ struct AddNewScheduleView: View {
     @State private var startTime: Date = Date()
     @State private var endTime: Date = Date().addingTimeInterval(3600)
     
+    // Variable to set exactly 11:59 PM
+    var endOfDay: Date {
+        Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: Date()) ?? Date()
+    }
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -34,10 +39,18 @@ struct AddNewScheduleView: View {
                 }
                 
                 // Set the time
-                Section(header: Text("Set Time")) {
-                    // Adjust the starting and ending time
-                    DatePicker("Start Time", selection: $startTime, displayedComponents: .hourAndMinute)
-                    DatePicker("End Time", selection: $endTime, displayedComponents: .hourAndMinute)
+                // Adjust the starting and ending time
+                Section(header: Text("Set Time"), footer: Text("Events must be scheduled for today and cannot be in the past.")) {
+                    // Start Time: must be after now
+                    DatePicker("Start Time", selection: $startTime, in: Date()...endOfDay, displayedComponents: .hourAndMinute)
+                        .onChange(of: startTime) { oldValue, newValue in
+                            if endTime < newValue {
+                                endTime = newValue
+                            }
+                        }
+                    
+                    // End Time: must be after startTime and no later than 23:59 today
+                    DatePicker("End Time", selection: $endTime, in: startTime...endOfDay, displayedComponents: .hourAndMinute)
                 }
             }
             .navigationTitle("Create a New Event")
