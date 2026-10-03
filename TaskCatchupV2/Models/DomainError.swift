@@ -17,6 +17,7 @@ enum TaskCatchupError: LocalizedError, Equatable {
     case insufficientBalance(shortage: Int)
     case scheduleConflict
     case databaseError(reason: String)
+    case missingVoucher(name: String)
     
     var errorDescription: String? {
         switch self {
@@ -32,6 +33,8 @@ enum TaskCatchupError: LocalizedError, Equatable {
             return "Double booking! You already have an event scheduled at this time. Try moving this new event to an available time block."
         case .databaseError(let reason):
             return "We had trouble saving your data: \(reason)."
+        case .missingVoucher(let name):
+            return "You don't have a \(name) in your inventory. Visit the Redeem tab to get one!"
         }
     }
 }

@@ -85,11 +85,11 @@ class DailyGoalsViewModel: ObservableObject {
     }
     
     // Removes a goal and applies the penalty
-    func removeGoal(_ goal: DailyGoal) {
+    func removeGoal(_ goal: DailyGoal, useFreeDeleteVoucher: Bool = false) {
         guard let currentProfile = profile else { return }
         
         do {
-            let updatedProfile = try removeGoalUseCase.execute(goal: goal, profile: currentProfile)
+            let updatedProfile = try removeGoalUseCase.execute(goal: goal, profile: currentProfile, useFreeDeleteVoucher: useFreeDeleteVoucher)
             
             // Delete the goal and update the profile penalty in Core Data
             try repository.deleteGoal(byId: goal.id)

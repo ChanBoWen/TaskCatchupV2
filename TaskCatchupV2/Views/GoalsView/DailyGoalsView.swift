@@ -94,12 +94,23 @@ struct DailyGoalsView: View {
             set: { if !$0 { goalToDelete = nil } }
         )
         ) {
+            // Dynamically show the use voucher button only if available
+            if let profile = viewModel.profile, profile.activeVouchers.contains(.freeDelete) {
+                Button("Use Free Delete Token", role: .none) {
+                    if let goal = goalToDelete {
+                        viewModel.removeGoal(goal, useFreeDeleteVoucher: true)
+                    }
+                    goalToDelete = nil
+                }
+            }
+            
             Button("Delete this Goal", role: .destructive) {
                 if let goal = goalToDelete {
                     viewModel.removeGoal(goal)
                 }
                 goalToDelete = nil
             }
+            
             Button("Cancel", role: .cancel) {
                 goalToDelete = nil
             }
