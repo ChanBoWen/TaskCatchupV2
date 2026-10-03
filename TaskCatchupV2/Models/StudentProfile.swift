@@ -23,6 +23,7 @@ struct StudentProfile: Equatable {
     var currentLevel: Int
     var dailyStreak: Int  // The number of consecutive days the student has completed all their set goals
     var activeVouchers: [VoucherType]  // How much active boost cards or vouchers the student has
+    var lastStreakDate: Date?  // Tracks the day that student earned their streak
     
     enum VoucherType: String, Equatable, Codable {
         case doubleXP = "Double XP Boost"
@@ -32,7 +33,7 @@ struct StudentProfile: Equatable {
     }
     
     // Initialiser with default values
-    init(id: UUID = UUID(), name: String, balancePoints: Int = 0, lifetimeXP: Int = 0, currentLevel: Int = 1, dailyStreak: Int = 0, activeVouchers: [VoucherType] = []) {
+    init(id: UUID = UUID(), name: String, balancePoints: Int = 0, lifetimeXP: Int = 0, currentLevel: Int = 1, dailyStreak: Int = 0, activeVouchers: [VoucherType] = [], lastStreakDate: Date? = nil) {
         self.id = id
         self.name = name
         self.balancePoints = balancePoints
@@ -40,5 +41,6 @@ struct StudentProfile: Equatable {
         self.currentLevel = currentLevel
         self.dailyStreak = dailyStreak
         self.activeVouchers = activeVouchers
+        self.lastStreakDate = lastStreakDate
     }
 }

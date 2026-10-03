@@ -53,6 +53,7 @@ class CoreDataGoalRepository: GoalRepository {
             entity.lifetimeXP = Int16(profile.lifetimeXP)
             entity.currentLevel = Int16(profile.currentLevel)
             entity.dailyStreak = Int16(profile.dailyStreak)
+            entity.lastStreakDate = profile.lastStreakDate
             
             // Encode the activeVouchers enums into Data
             if let encodedActiveVouchers = try? JSONEncoder().encode(profile.activeVouchers) {
@@ -187,7 +188,8 @@ class CoreDataGoalRepository: GoalRepository {
             lifetimeXP: Int(entity.lifetimeXP),
             currentLevel: Int(entity.currentLevel),
             dailyStreak: Int(entity.dailyStreak),
-            activeVouchers: vouchers
+            activeVouchers: vouchers,
+            lastStreakDate: entity.lastStreakDate
         )
     }
 }

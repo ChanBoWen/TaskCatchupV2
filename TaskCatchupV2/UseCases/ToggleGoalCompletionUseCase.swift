@@ -25,6 +25,10 @@ struct ToggleGoalCompletionUseCase {
         let otherGoals = allDailyGoals.filter { $0.id != goal.id }
         let areAllOtherGoalsCompleted = otherGoals.allSatisfy { $0.isCompleted == true }
         
+        // Check if already earned a streak today
+        let calendar = Calendar.current
+        let hasEarnedStreakToday = profile.lastStreakDate != nil && calendar.isDateInToday(profile.lastStreakDate!)
+        
         // If the goal is not tick as completed yet
         if !goal.isCompleted {
             // Update the Goal
@@ -34,9 +38,10 @@ struct ToggleGoalCompletionUseCase {
             updatedProfile.balancePoints += goal.rewardPoints
             updatedProfile.lifetimeXP += goal.rewardPoints
             
-            if areAllOtherGoalsCompleted {
-                // If every other goal was done, completing this one finishes the day
+            if areAllOtherGoalsCompleted && !hasEarnedStreakToday {
+                // If every other goal was done and haven't earned it yet today
                 updatedProfile.dailyStreak += 1
+                updatedProfile.lastStreakDate = Date()
             }
         // If it has already been ticked as completed
         } else {
@@ -53,8 +58,11 @@ struct ToggleGoalCompletionUseCase {
             updatedProfile.lifetimeXP = max(0, updatedProfile.lifetimeXP - goal.rewardPoints)
             
             // Set the streak back
-            if areAllOtherGoalsCompleted {
+            if areAllOtherGoalsCompleted && hasEarnedStreakToday {
                 updatedProfile.dailyStreak = max(0, updatedProfile.dailyStreak - 1)
+                
+                // Set the last streak date to yesterday
+                updatedProfile.lastStreakDate = calendar.date(byAdding: .day, value: -1, to: Date())
             }
         }
         

@@ -70,10 +70,15 @@ class DailyGoalsViewModel: ObservableObject {
     
     // Adds a new goal to today's list
     func addNewGoal(title: String, category: DailyGoal.GoalCategory, isRecurring: Bool) {
+        guard let currentProfile = profile else { return }
+        
         do {
             // Save the newest goal to the database
-            let newGoal = try addGoalUseCase.execute(title: title, category: category, isRecurring: isRecurring)
-            try repository.addGoal(newGoal)
+            let result = try addGoalUseCase.execute(title: title, category: category, isRecurring: isRecurring, profile: currentProfile)
+            
+            // Save the new goal AND the updated profile to Core Data
+            try repository.addGoal(result.newGoal)
+            try repository.updateProfile(result.updatedProfile)
             
             // Reload from the database
             loadData()
