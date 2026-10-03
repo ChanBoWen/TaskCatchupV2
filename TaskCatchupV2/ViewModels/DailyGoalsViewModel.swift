@@ -21,6 +21,7 @@ class DailyGoalsViewModel: ObservableObject {
     private let toggleGoalUseCase = ToggleGoalCompletionUseCase()
     private let addGoalUseCase = AddNewDailyGoalUseCase()
     private let removeGoalUseCase = RemoveDailyGoalUseCase()
+    private let dailyResetUseCase = DailyResetUseCase()
     
     // Inject the Core Data repository
     init(repository: GoalRepository = CoreDataGoalRepository(context: PersistenceController.shared.container.viewContext)) {
@@ -33,6 +34,8 @@ class DailyGoalsViewModel: ObservableObject {
         do {
             self.profile = try repository.fetchProfile()
             self.todayGoals = try repository.fetchGoals()
+            
+            checkAndPerformDailyReset()
         } catch {
             let fallbackError = TaskCatchupError.databaseError(reason: "An unexpected system error occurred")
             self.errorMessage = fallbackError.localizedDescription
@@ -104,6 +107,37 @@ class DailyGoalsViewModel: ObservableObject {
             let fallbackError = TaskCatchupError.databaseError(reason: "Failed to delete goal")
             self.errorMessage = fallbackError.localizedDescription
             self.showError = true
+        }
+    }
+
+    // Checks if a new day has started, and resets recurring goals and clears expired ones
+    private func checkAndPerformDailyReset() {
+        // Get the last time the app was opened
+        let lastResetDate = UserDefaults.standard.object(forKey: "LastResetDate") as? Date ?? Date()
+        
+        // It is a new day if the last reset date is not today
+        if !Calendar.current.isDateInToday(lastResetDate) {
+            let result = dailyResetUseCase.execute(currentGoals: todayGoals)
+            
+            do {
+                // Delete one-off goals from Core Data
+                for goal in result.goalsToDelete {
+                    try repository.deleteGoal(byId: goal.id)
+                }
+                
+                // Untick recurring goals in Core Data
+                for goal in result.goalsToReset {
+                    try repository.updateGoal(goal)
+                }
+                
+                // Save the new today's date
+                UserDefaults.standard.set(Date(), forKey: "LastResetDate")
+                
+                // Reload the new goal list
+                self.todayGoals = try repository.fetchGoals()
+            } catch {
+                print("Failed to perform daily reset.")
+            }
         }
     }
 }
