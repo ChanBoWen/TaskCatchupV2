@@ -43,48 +43,10 @@ struct RedeemItemView: View {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 20) {
                     ForEach(viewModel.storeItems) { item in
-                        VStack(spacing: 10) {
-                            // Voucher icon
-                            Image(systemName: item.icon)
-                                .font(.system(size: 35))
-                                .foregroundColor(item.color)
-                                .padding(.top, 10)
-                            
-                            // Voucher name
-                            Text(item.title)
-                                .font(.headline)
-                                .multilineTextAlignment(.center)
-                            
-                            // Description
-                            Text(item.description)
-                                .font(.caption2)
-                                .multilineTextAlignment(.center)
-                                .foregroundColor(.secondary)
-                                .frame(height: 30)
-                            
-                            // Cost
-                            Text("Cost: \(item.cost) BP")
-                                .font(.subheadline)
-                                .foregroundColor(.orange)
-                                .fontWeight(.bold)
-                                .padding(.vertical, 4)
-                            
-                            // Purchase voucher button
-                            Button(action: {
-                                viewModel.purchaseVoucher(type: item.type, cost: item.cost, itemName: item.title)
-                            }) {
-                                Text("Redeem")
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.white)
-                                    .padding(.vertical, 8)
-                                    .frame(maxWidth: .infinity)
-                                    .background(Color.blue)
-                                    .cornerRadius(8)
-                            }
+                        // Extracted grid card view
+                        StoreItemCardView(item: item) {
+                            viewModel.purchaseVoucher(type: item.type, cost: item.cost, itemName: item.title)
                         }
-                        .padding()
-                        .background(Color.blue.opacity(0.1))
-                        .cornerRadius(12)
                     }
                 }
                 .padding(.horizontal)
