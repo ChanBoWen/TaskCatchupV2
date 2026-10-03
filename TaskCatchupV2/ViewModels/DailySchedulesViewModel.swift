@@ -20,6 +20,7 @@ class DailySchedulesViewModel: ObservableObject {
     private let scheduleNewEventUseCase = ScheduleNewEventUseCase()
     private let profileRepo: GoalRepository
     private let scheduleRepo: ScheduleRepository
+    private let resetScheduleUseCase = ResetDailyScheduleUseCase()
     
     // Inject the Core Data repositories
     init(
@@ -36,6 +37,8 @@ class DailySchedulesViewModel: ObservableObject {
         do {
             self.profile = try profileRepo.fetchProfile()
             self.todaySchedule = try scheduleRepo.fetchSchedules()
+            
+            checkAndPerformDailyReset()
         } catch {
             let fallback = TaskCatchupError.databaseError(reason: "Failed to load schedule data")
             self.errorMessage = fallback.localizedDescription
@@ -82,6 +85,25 @@ class DailySchedulesViewModel: ObservableObject {
             let fallback = TaskCatchupError.databaseError(reason: "Failed to delete event")
             self.errorMessage = fallback.localizedDescription
             self.showError = true
+        }
+    }
+    
+    // Checks for and deletes schedules from previous days
+    private func checkAndPerformDailyReset() {
+        let schedulesToDelete = resetScheduleUseCase.execute(currentSchedules: todaySchedule)
+        
+        if !schedulesToDelete.isEmpty {
+            do {
+                // Delete all expired schedules from Core Data
+                for schedule in schedulesToDelete {
+                    try scheduleRepo.deleteSchedule(byId: schedule.id)
+                }
+                
+                // Reload the new event list
+                self.todaySchedule = try scheduleRepo.fetchSchedules()
+            } catch {
+                print("Failed to perform daily schedule reset.")
+            }
         }
     }
 }
