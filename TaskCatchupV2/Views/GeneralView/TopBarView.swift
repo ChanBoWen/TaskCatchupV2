@@ -82,5 +82,10 @@ struct TopBarView: View {
         }
         .padding(.top)
         .padding(.horizontal)
+        
+        // Opens the Profile View as a sheet
+        .sheet(isPresented: $showingProfile) {
+            ProfileView()
+        }
     }
 }
