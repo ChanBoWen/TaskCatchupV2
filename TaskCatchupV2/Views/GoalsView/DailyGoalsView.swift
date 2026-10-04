@@ -136,6 +136,10 @@ struct DailyGoalsView: View {
         } message: {
             Text("Are you sure? Unticking a completed goal incurs a 20 BP penalty.")
         }
+        
+        .onAppear {
+            viewModel.loadData()
+        }
     }
 }
 

@@ -65,6 +65,10 @@ struct RedeemItemView: View {
         } message: {
             Text(viewModel.successMessage)
         }
+        
+        .onAppear {
+            viewModel.loadData()
+        }
     }
 }
 

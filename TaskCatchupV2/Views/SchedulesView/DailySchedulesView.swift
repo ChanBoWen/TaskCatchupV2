@@ -25,7 +25,7 @@ struct DailySchedulesView: View {
                 ProgressView("Loading Profile...")
                     .padding(.top, 40)
             }
-
+            
             Spacer()
             
             // Header
@@ -95,6 +95,10 @@ struct DailySchedulesView: View {
             }
         } message: {
             Text("Are you sure you want to remove this event from your schedule?")
+        }
+        
+        .onAppear {
+            viewModel.loadData()
         }
     }
 }
