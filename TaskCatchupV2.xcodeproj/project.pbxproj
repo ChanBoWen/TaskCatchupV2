@@ -114,6 +114,13 @@
 			);
 			target = 82C2F6B830727964008EBA01 /* TaskCatchupNotification */;
 		};
+		82C2F6D830727D96008EBA01 /* Exceptions for "TaskCatchupNotification" folder in "TaskCatchupV2" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				NotificationView.swift,
+			);
+			target = 822F439D306E64B500737E1C /* TaskCatchupV2 */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -147,6 +154,7 @@
 		82C2F6BE30727964008EBA01 /* TaskCatchupNotification */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				82C2F6D830727D96008EBA01 /* Exceptions for "TaskCatchupNotification" folder in "TaskCatchupV2" target */,
 				82C2F6CA30727964008EBA01 /* Exceptions for "TaskCatchupNotification" folder in "TaskCatchupNotification" target */,
 			);
 			path = TaskCatchupNotification;

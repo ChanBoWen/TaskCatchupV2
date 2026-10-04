@@ -8,18 +8,34 @@
 import UIKit
 import UserNotifications
 import UserNotificationsUI
+import SwiftUI
 
 class NotificationViewController: UIViewController, UNNotificationContentExtension {
-
-    @IBOutlet var label: UILabel?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any required interface initialization here.
+        
+        // Create the SwiftUI View
+        let swiftUIView = NotificationView()
+        
+        // Wrap it in a Hosting Controller
+        let hostingController = UIHostingController(rootView: swiftUIView)
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        hostingController.view.backgroundColor = .clear
+        
+        // Add it to the Notification window
+        self.addChild(hostingController)
+        self.view.addSubview(hostingController.view)
+        
+        // Auto Layout constraints
+        NSLayoutConstraint.activate([
+            hostingController.view.topAnchor.constraint(equalTo: self.view.topAnchor),
+            hostingController.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            hostingController.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            hostingController.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+        ])
+        
+        hostingController.didMove(toParent: self)
     }
     
-    func didReceive(_ notification: UNNotification) {
-        self.label?.text = notification.request.content.body
-    }
-
+    func didReceive(_ notification: UNNotification) { }
 }
