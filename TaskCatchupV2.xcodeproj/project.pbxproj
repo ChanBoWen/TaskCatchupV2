@@ -6,6 +6,12 @@
 	objectVersion = 110;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		82C2F5BC30726B71008EBA01 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C2F5BB30726B71008EBA01 /* WidgetKit.framework */; };
+		82C2F5BE30726B71008EBA01 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C2F5BD30726B71008EBA01 /* SwiftUI.framework */; };
+		82C2F5CB30726B73008EBA01 /* TaskCatchupWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 82C2F5B930726B71008EBA01 /* TaskCatchupWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		822F43B1306E64B600737E1C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -21,17 +27,64 @@
 			remoteGlobalIDString = 822F439D306E64B500737E1C;
 			remoteInfo = TaskCatchupV2;
 		};
+		82C2F5C930726B73008EBA01 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 822F4396306E64B500737E1C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 82C2F5B830726B71008EBA01;
+			remoteInfo = TaskCatchupWidgetsExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		82C2F5CC30726B73008EBA01 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "";
+			dstSubfolder = PlugIns;
+			files = (
+				82C2F5CB30726B73008EBA01 /* TaskCatchupWidgetsExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		822F439E306E64B500737E1C /* TaskCatchupV2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskCatchupV2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		822F43B0306E64B600737E1C /* TaskCatchupV2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TaskCatchupV2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		822F43BA306E64B600737E1C /* TaskCatchupV2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TaskCatchupV2UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		82C2F5B930726B71008EBA01 /* TaskCatchupWidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TaskCatchupWidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		82C2F5BB30726B71008EBA01 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		82C2F5BD30726B71008EBA01 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		82C2F5D130726C2B008EBA01 /* TaskCatchupWidgetsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TaskCatchupWidgetsExtension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		82C2F5CF30726B73008EBA01 /* Exceptions for "TaskCatchupWidgets" folder in "TaskCatchupWidgetsExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 82C2F5B830726B71008EBA01 /* TaskCatchupWidgetsExtension */;
+		};
+		82C2F5D330726D13008EBA01 /* Exceptions for "TaskCatchupV2" folder in "TaskCatchupWidgetsExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				CoreData/Persistence.swift,
+				CoreData/TaskCatchupV2.xcdatamodeld,
+				Models/DailyGoal.swift,
+				Models/DailySchedule.swift,
+				Models/DomainError.swift,
+			);
+			target = 82C2F5B830726B71008EBA01 /* TaskCatchupWidgetsExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		822F43A0306E64B500737E1C /* TaskCatchupV2 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				82C2F5D330726D13008EBA01 /* Exceptions for "TaskCatchupV2" folder in "TaskCatchupWidgetsExtension" target */,
+			);
 			path = TaskCatchupV2;
 			sourceTree = "<group>";
 		};
@@ -43,6 +96,14 @@
 		822F43BD306E64B600737E1C /* TaskCatchupV2UITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = TaskCatchupV2UITests;
+			sourceTree = "<group>";
+		};
+		82C2F5BF30726B71008EBA01 /* TaskCatchupWidgets */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				82C2F5CF30726B73008EBA01 /* Exceptions for "TaskCatchupWidgets" folder in "TaskCatchupWidgetsExtension" target */,
+			);
+			path = TaskCatchupWidgets;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -63,15 +124,25 @@
 			files = (
 			);
 		};
+		82C2F5B630726B71008EBA01 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+				82C2F5BE30726B71008EBA01 /* SwiftUI.framework in Frameworks */,
+				82C2F5BC30726B71008EBA01 /* WidgetKit.framework in Frameworks */,
+			);
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		822F4395306E64B500737E1C = {
 			isa = PBXGroup;
 			children = (
+				82C2F5D130726C2B008EBA01 /* TaskCatchupWidgetsExtension.entitlements */,
 				822F43A0306E64B500737E1C /* TaskCatchupV2 */,
 				822F43B3306E64B600737E1C /* TaskCatchupV2Tests */,
 				822F43BD306E64B600737E1C /* TaskCatchupV2UITests */,
+				82C2F5BF30726B71008EBA01 /* TaskCatchupWidgets */,
+				82C2F5BA30726B71008EBA01 /* Frameworks */,
 				822F439F306E64B500737E1C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -82,8 +153,18 @@
 				822F439E306E64B500737E1C /* TaskCatchupV2.app */,
 				822F43B0306E64B600737E1C /* TaskCatchupV2Tests.xctest */,
 				822F43BA306E64B600737E1C /* TaskCatchupV2UITests.xctest */,
+				82C2F5B930726B71008EBA01 /* TaskCatchupWidgetsExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		82C2F5BA30726B71008EBA01 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				82C2F5BB30726B71008EBA01 /* WidgetKit.framework */,
+				82C2F5BD30726B71008EBA01 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -96,8 +177,12 @@
 				822F439A306E64B500737E1C /* Sources */,
 				822F439B306E64B500737E1C /* Frameworks */,
 				822F439C306E64B500737E1C /* Resources */,
+				82C2F5CC30726B73008EBA01 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
+			);
+			dependencies = (
+				82C2F5CA30726B73008EBA01 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				822F43A0306E64B500737E1C /* TaskCatchupV2 */,
@@ -149,6 +234,24 @@
 			productReference = 822F43BA306E64B600737E1C /* TaskCatchupV2UITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		82C2F5B830726B71008EBA01 /* TaskCatchupWidgetsExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 82C2F5D030726B73008EBA01 /* Build configuration list for PBXNativeTarget "TaskCatchupWidgetsExtension" */;
+			buildPhases = (
+				82C2F5B530726B71008EBA01 /* Sources */,
+				82C2F5B630726B71008EBA01 /* Frameworks */,
+				82C2F5B730726B71008EBA01 /* Resources */,
+			);
+			buildRules = (
+			);
+			fileSystemSynchronizedGroups = (
+				82C2F5BF30726B71008EBA01 /* TaskCatchupWidgets */,
+			);
+			name = TaskCatchupWidgetsExtension;
+			productName = TaskCatchupWidgetsExtension;
+			productReference = 82C2F5B930726B71008EBA01 /* TaskCatchupWidgetsExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -170,6 +273,9 @@
 						CreatedOnToolsVersion = 27.0;
 						TestTargetID = 822F439D306E64B500737E1C;
 					};
+					82C2F5B830726B71008EBA01 = {
+						CreatedOnToolsVersion = 27.0;
+					};
 				};
 			};
 			buildConfigurationList = 822F4399306E64B500737E1C /* Build configuration list for PBXProject "TaskCatchupV2" */;
@@ -189,6 +295,7 @@
 				822F439D306E64B500737E1C /* TaskCatchupV2 */,
 				822F43AF306E64B600737E1C /* TaskCatchupV2Tests */,
 				822F43B9306E64B600737E1C /* TaskCatchupV2UITests */,
+				82C2F5B830726B71008EBA01 /* TaskCatchupWidgetsExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -205,6 +312,11 @@
 			);
 		};
 		822F43B8306E64B600737E1C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+		82C2F5B730726B71008EBA01 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
 			);
@@ -227,6 +339,11 @@
 			files = (
 			);
 		};
+		82C2F5B530726B71008EBA01 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -239,6 +356,11 @@
 			isa = PBXTargetDependency;
 			target = 822F439D306E64B500737E1C /* TaskCatchupV2 */;
 			targetProxy = 822F43BB306E64B600737E1C /* PBXContainerItemProxy */;
+		};
+		82C2F5CA30726B73008EBA01 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 82C2F5B830726B71008EBA01 /* TaskCatchupWidgetsExtension */;
+			targetProxy = 82C2F5C930726B73008EBA01 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -508,6 +630,68 @@
 			};
 			name = Release;
 		};
+		82C2F5CD30726B73008EBA01 /* Debug configuration for PBXNativeTarget "TaskCatchupWidgetsExtension" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = TaskCatchupWidgetsExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TaskCatchupWidgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TaskCatchupWidgets;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bowen.TaskCatchupV2.TaskCatchupWidgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		82C2F5CE30726B73008EBA01 /* Release configuration for PBXNativeTarget "TaskCatchupWidgetsExtension" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = TaskCatchupWidgetsExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TaskCatchupWidgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TaskCatchupWidgets;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bowen.TaskCatchupV2.TaskCatchupWidgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -540,6 +724,14 @@
 			buildConfigurations = (
 				822F43C9306E64B600737E1C /* Debug configuration for PBXNativeTarget "TaskCatchupV2UITests" */,
 				822F43CA306E64B600737E1C /* Release configuration for PBXNativeTarget "TaskCatchupV2UITests" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		82C2F5D030726B73008EBA01 /* Build configuration list for PBXNativeTarget "TaskCatchupWidgetsExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82C2F5CD30726B73008EBA01 /* Debug configuration for PBXNativeTarget "TaskCatchupWidgetsExtension" */,
+				82C2F5CE30726B73008EBA01 /* Release configuration for PBXNativeTarget "TaskCatchupWidgetsExtension" */,
 			);
 			defaultConfigurationName = Release;
 		};
