@@ -28,10 +28,8 @@ class CoreDataGoalRepository: GoalRepository {
             if let entity = entities.first {
                 return toProfileDomainModel(entity: entity)
             } else {
-                // Use this dummy data if no profile exists
-                let newProfile = StudentProfile(name: "Alex", balancePoints: 40, lifetimeXP: 80, currentLevel: 1, dailyStreak: 2)
-                try updateProfile(newProfile)
-                return newProfile
+                // Returns a safe empty profile to prevent crashes if something goes wrong
+                return StudentProfile(name: "New Student", balancePoints: 0, lifetimeXP: 0, currentLevel: 1, dailyStreak: 0)
             }
         } catch {
             throw TaskCatchupError.databaseError(reason: "Failed to fetch profile")
