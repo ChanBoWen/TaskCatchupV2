@@ -9,6 +9,7 @@ import Foundation
 import Combine
 import CoreData
 import SwiftUI
+import WidgetKit
 
 /// ViewModel responsible for managing the state and business logic for the Redeem screen.
 ///
@@ -23,7 +24,7 @@ class RedeemItemViewModel: ObservableObject {
     @Published var storeItems: [StoreItem] = [
         StoreItem(type: .doubleXP, title: "Double XP", description: "Earn 2x XP for 24 hours.", cost: 100, icon: "arrow.up.circle.fill", color: .purple),
         StoreItem(type: .doubleBP, title: "Double BP", description: "Earn 2x BP for 24 hours.", cost: 100, icon: "bitcoinsign.circle.fill", color: .yellow),
-        StoreItem(type: .restDay, title: "Rest Day Pass", description: "Protects your streak if you rest.", cost: 50, icon: "cup.and.saucer.fill", color: .blue),
+        StoreItem(type: .restDay, title: "Rest Day Voucher", description: "Protects your streak if you rest.", cost: 50, icon: "cup.and.saucer.fill", color: .blue),
         StoreItem(type: .freeDelete, title: "Free Delete", description: "Waives the 20 BP deletion penalty.", cost: 30, icon: "trash.slash.fill", color: .red)
         ]
     
@@ -64,6 +65,9 @@ class RedeemItemViewModel: ObservableObject {
             
             // Reload from the database
             loadData()
+            
+            // Reload the widget
+            WidgetCenter.shared.reloadAllTimelines()
         } catch let error as TaskCatchupError {
             self.errorMessage = error.localizedDescription
             self.showError = true

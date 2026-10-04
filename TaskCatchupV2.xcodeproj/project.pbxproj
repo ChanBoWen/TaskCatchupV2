@@ -74,6 +74,9 @@
 				Models/DailyGoal.swift,
 				Models/DailySchedule.swift,
 				Models/DomainError.swift,
+				Models/StudentProfile.swift,
+				Repositories/GoalRepository/CoreDataGoalRepository.swift,
+				Repositories/GoalRepository/GoalRepository.swift,
 			);
 			target = 82C2F5B830726B71008EBA01 /* TaskCatchupWidgetsExtension */;
 		};

@@ -7,78 +7,134 @@
 
 import WidgetKit
 import SwiftUI
+import CoreData
+
+// Timeline Entry
+struct TaskCatchupEntry: TimelineEntry {
+    let date: Date
+    let profile: StudentProfile?
+    let remainingGoals: [DailyGoal]
+}
 
 struct Provider: TimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), emoji: "😀")
+    // Shared Core Data repository
+    let repository: GoalRepository = CoreDataGoalRepository(context: PersistenceController.shared.container.viewContext)
+    
+    func placeholder(in context: Context) -> TaskCatchupEntry {
+        TaskCatchupEntry(date: Date(), profile: nil, remainingGoals: [])
     }
-
-    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), emoji: "😀")
+    
+    func getSnapshot(in context: Context, completion: @escaping (TaskCatchupEntry) -> ()) {
+        let entry = TaskCatchupEntry(date: Date(), profile: nil, remainingGoals: [])
         completion(entry)
     }
-
+    
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [SimpleEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, emoji: "😀")
-            entries.append(entry)
+        var profile: StudentProfile? = nil
+        var remainingGoals: [DailyGoal] = []
+        
+        do {
+            profile = try repository.fetchProfile()
+            remainingGoals = try repository.fetchIncompleteGoals()
+        } catch {
+            print("Widget failed to load Core Data")
         }
-
-        let timeline = Timeline(entries: entries, policy: .atEnd)
+        
+        let entry = TaskCatchupEntry(date: Date(), profile: profile, remainingGoals: remainingGoals)
+        
+        let timeline = Timeline(entries: [entry], policy: .never)
         completion(timeline)
     }
-
-//    func relevances() async -> WidgetRelevances<Void> {
-//        // Generate a list containing the contexts this widget is relevant in.
-//    }
 }
-
-struct SimpleEntry: TimelineEntry {
-    let date: Date
-    let emoji: String
-}
-
+    
 struct TaskCatchupWidgetsEntryView : View {
     var entry: Provider.Entry
-
+    @Environment(\.widgetFamily) var family
+    
     var body: some View {
-        VStack {
-            Text("Time:")
-            Text(entry.date, style: .time)
-
-            Text("Emoji:")
-            Text(entry.emoji)
+        VStack(alignment: .leading, spacing: 8) {
+            if let profile = entry.profile {
+                
+                // Show the profile stats
+                HStack {
+                    Text("Level \(profile.currentLevel)")
+                        .font(.subheadline)
+                        .fontWeight(.bold)
+                        .foregroundColor(.orange)
+                    
+                    Spacer()
+                    
+                    Text("🪙 \(profile.balancePoints)")
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                }
+                
+                Divider()
+                
+                // Show the goals that are not completed
+                if entry.remainingGoals.isEmpty {
+                    Spacer()
+                    
+                    Text("All caught up!")
+                        .font(.headline)
+                        .foregroundColor(.gray)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    
+                    Spacer()
+                } else {
+                    Text("\(entry.remainingGoals.count) Goals Left:")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    
+                    let maxGoals = family == .systemSmall ? 1 : 3
+                    
+                    ForEach(entry.remainingGoals.prefix(maxGoals)) { goal in
+                        HStack {
+                            Image(systemName: "circle")
+                                .foregroundColor(.blue)
+                                .font(.caption)
+                            Text(goal.title)
+                                .font(.subheadline)
+                                .lineLimit(1)
+                        }
+                    }
+                }
+            } else {
+                Text("Open TaskCatchup to set up your profile!")
+                    .font(.caption)
+                    .foregroundColor(.gray)
+            }
+        }
+        // Widget background
+        .containerBackground(for: .widget) {
+            Color(UIColor.systemBackground)
         }
     }
 }
 
 struct TaskCatchupWidgets: Widget {
     let kind: String = "TaskCatchupWidgets"
-
+    
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
-            if #available(iOS 17.0, *) {
-                TaskCatchupWidgetsEntryView(entry: entry)
-                    .containerBackground(.fill.tertiary, for: .widget)
-            } else {
-                TaskCatchupWidgetsEntryView(entry: entry)
-                    .padding()
-                    .background()
-            }
+            TaskCatchupWidgetsEntryView(entry: entry)
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName("Daily Goals")
+        .description("Track your Balance Points and remaining daily goals.")
+        .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
+
 
 #Preview(as: .systemSmall) {
     TaskCatchupWidgets()
 } timeline: {
-    SimpleEntry(date: .now, emoji: "😀")
-    SimpleEntry(date: .now, emoji: "🤩")
+    TaskCatchupEntry(
+        date: .now,
+        profile: StudentProfile(name: "Alex", balancePoints: 120, lifetimeXP: 250, currentLevel: 3, dailyStreak: 5),
+        remainingGoals: [
+            DailyGoal(title: "Finish Essay", category: .academic, isRecurring: false, rewardPoints: 20),
+            DailyGoal(title: "Drink Water", category: .rest, isRecurring: true, rewardPoints: 5)
+        ]
+    )
 }

@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import CoreData
+import WidgetKit
 
 /// ViewModel responsible for managing the state and business logic of the Daily Goals screen.
 ///
@@ -57,6 +58,9 @@ class DailyGoalsViewModel: ObservableObject {
             
             // Reload from the database
             loadData()
+            
+            // Reload the widget
+            WidgetCenter.shared.reloadAllTimelines()
         } catch let error as TaskCatchupError {
             // Show error if cannot afford penalty
             self.errorMessage = error.localizedDescription
@@ -82,6 +86,9 @@ class DailyGoalsViewModel: ObservableObject {
             
             // Reload from the database
             loadData()
+            
+            // Reload the widget
+            WidgetCenter.shared.reloadAllTimelines()
         } catch let error as TaskCatchupError {
             self.errorMessage = error.localizedDescription
             self.showError = true
@@ -105,6 +112,9 @@ class DailyGoalsViewModel: ObservableObject {
             
             // Reload from the database
             loadData()
+            
+            // Reload the widget
+            WidgetCenter.shared.reloadAllTimelines()
         } catch let error as TaskCatchupError {
             self.errorMessage = error.localizedDescription
             self.showError = true
