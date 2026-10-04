@@ -10,6 +10,9 @@
 		82C2F5BC30726B71008EBA01 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C2F5BB30726B71008EBA01 /* WidgetKit.framework */; };
 		82C2F5BE30726B71008EBA01 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C2F5BD30726B71008EBA01 /* SwiftUI.framework */; };
 		82C2F5CB30726B73008EBA01 /* TaskCatchupWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 82C2F5B930726B71008EBA01 /* TaskCatchupWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		82C2F6BB30727964008EBA01 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C2F6BA30727964008EBA01 /* UserNotifications.framework */; };
+		82C2F6BD30727964008EBA01 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C2F6BC30727964008EBA01 /* UserNotificationsUI.framework */; };
+		82C2F6C730727964008EBA01 /* TaskCatchupNotification.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 82C2F6B930727964008EBA01 /* TaskCatchupNotification.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +37,13 @@
 			remoteGlobalIDString = 82C2F5B830726B71008EBA01;
 			remoteInfo = TaskCatchupWidgetsExtension;
 		};
+		82C2F6C530727964008EBA01 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 822F4396306E64B500737E1C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 82C2F6B830727964008EBA01;
+			remoteInfo = TaskCatchupNotification;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,6 +53,7 @@
 			dstSubfolder = PlugIns;
 			files = (
 				82C2F5CB30726B73008EBA01 /* TaskCatchupWidgetsExtension.appex in Embed Foundation Extensions */,
+				82C2F6C730727964008EBA01 /* TaskCatchupNotification.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 		};
@@ -56,6 +67,9 @@
 		82C2F5BB30726B71008EBA01 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		82C2F5BD30726B71008EBA01 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		82C2F5D130726C2B008EBA01 /* TaskCatchupWidgetsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TaskCatchupWidgetsExtension.entitlements; sourceTree = "<group>"; };
+		82C2F6B930727964008EBA01 /* TaskCatchupNotification.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TaskCatchupNotification.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		82C2F6BA30727964008EBA01 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		82C2F6BC30727964008EBA01 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -80,6 +94,26 @@
 			);
 			target = 82C2F5B830726B71008EBA01 /* TaskCatchupWidgetsExtension */;
 		};
+		82C2F6CA30727964008EBA01 /* Exceptions for "TaskCatchupNotification" folder in "TaskCatchupNotification" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 82C2F6B830727964008EBA01 /* TaskCatchupNotification */;
+		};
+		82C2F6CE307279CF008EBA01 /* Exceptions for "TaskCatchupV2" folder in "TaskCatchupNotification" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				CoreData/Persistence.swift,
+				CoreData/TaskCatchupV2.xcdatamodeld,
+				Models/DailyGoal.swift,
+				Models/DomainError.swift,
+				Models/StudentProfile.swift,
+				Repositories/GoalRepository/CoreDataGoalRepository.swift,
+				Repositories/GoalRepository/GoalRepository.swift,
+			);
+			target = 82C2F6B830727964008EBA01 /* TaskCatchupNotification */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -87,6 +121,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				82C2F5D330726D13008EBA01 /* Exceptions for "TaskCatchupV2" folder in "TaskCatchupWidgetsExtension" target */,
+				82C2F6CE307279CF008EBA01 /* Exceptions for "TaskCatchupV2" folder in "TaskCatchupNotification" target */,
 			);
 			path = TaskCatchupV2;
 			sourceTree = "<group>";
@@ -107,6 +142,14 @@
 				82C2F5CF30726B73008EBA01 /* Exceptions for "TaskCatchupWidgets" folder in "TaskCatchupWidgetsExtension" target */,
 			);
 			path = TaskCatchupWidgets;
+			sourceTree = "<group>";
+		};
+		82C2F6BE30727964008EBA01 /* TaskCatchupNotification */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				82C2F6CA30727964008EBA01 /* Exceptions for "TaskCatchupNotification" folder in "TaskCatchupNotification" target */,
+			);
+			path = TaskCatchupNotification;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -134,6 +177,13 @@
 				82C2F5BC30726B71008EBA01 /* WidgetKit.framework in Frameworks */,
 			);
 		};
+		82C2F6B630727964008EBA01 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+				82C2F6BD30727964008EBA01 /* UserNotificationsUI.framework in Frameworks */,
+				82C2F6BB30727964008EBA01 /* UserNotifications.framework in Frameworks */,
+			);
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -145,6 +195,7 @@
 				822F43B3306E64B600737E1C /* TaskCatchupV2Tests */,
 				822F43BD306E64B600737E1C /* TaskCatchupV2UITests */,
 				82C2F5BF30726B71008EBA01 /* TaskCatchupWidgets */,
+				82C2F6BE30727964008EBA01 /* TaskCatchupNotification */,
 				82C2F5BA30726B71008EBA01 /* Frameworks */,
 				822F439F306E64B500737E1C /* Products */,
 			);
@@ -157,6 +208,7 @@
 				822F43B0306E64B600737E1C /* TaskCatchupV2Tests.xctest */,
 				822F43BA306E64B600737E1C /* TaskCatchupV2UITests.xctest */,
 				82C2F5B930726B71008EBA01 /* TaskCatchupWidgetsExtension.appex */,
+				82C2F6B930727964008EBA01 /* TaskCatchupNotification.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -166,6 +218,8 @@
 			children = (
 				82C2F5BB30726B71008EBA01 /* WidgetKit.framework */,
 				82C2F5BD30726B71008EBA01 /* SwiftUI.framework */,
+				82C2F6BA30727964008EBA01 /* UserNotifications.framework */,
+				82C2F6BC30727964008EBA01 /* UserNotificationsUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -186,6 +240,7 @@
 			);
 			dependencies = (
 				82C2F5CA30726B73008EBA01 /* PBXTargetDependency */,
+				82C2F6C630727964008EBA01 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				822F43A0306E64B500737E1C /* TaskCatchupV2 */,
@@ -255,6 +310,24 @@
 			productReference = 82C2F5B930726B71008EBA01 /* TaskCatchupWidgetsExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		82C2F6B830727964008EBA01 /* TaskCatchupNotification */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 82C2F6CB30727964008EBA01 /* Build configuration list for PBXNativeTarget "TaskCatchupNotification" */;
+			buildPhases = (
+				82C2F6B530727964008EBA01 /* Sources */,
+				82C2F6B630727964008EBA01 /* Frameworks */,
+				82C2F6B730727964008EBA01 /* Resources */,
+			);
+			buildRules = (
+			);
+			fileSystemSynchronizedGroups = (
+				82C2F6BE30727964008EBA01 /* TaskCatchupNotification */,
+			);
+			name = TaskCatchupNotification;
+			productName = TaskCatchupNotification;
+			productReference = 82C2F6B930727964008EBA01 /* TaskCatchupNotification.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -279,6 +352,9 @@
 					82C2F5B830726B71008EBA01 = {
 						CreatedOnToolsVersion = 27.0;
 					};
+					82C2F6B830727964008EBA01 = {
+						CreatedOnToolsVersion = 27.0;
+					};
 				};
 			};
 			buildConfigurationList = 822F4399306E64B500737E1C /* Build configuration list for PBXProject "TaskCatchupV2" */;
@@ -299,6 +375,7 @@
 				822F43AF306E64B600737E1C /* TaskCatchupV2Tests */,
 				822F43B9306E64B600737E1C /* TaskCatchupV2UITests */,
 				82C2F5B830726B71008EBA01 /* TaskCatchupWidgetsExtension */,
+				82C2F6B830727964008EBA01 /* TaskCatchupNotification */,
 			);
 		};
 /* End PBXProject section */
@@ -320,6 +397,11 @@
 			);
 		};
 		82C2F5B730726B71008EBA01 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+		82C2F6B730727964008EBA01 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
 			);
@@ -347,6 +429,11 @@
 			files = (
 			);
 		};
+		82C2F6B530727964008EBA01 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -364,6 +451,11 @@
 			isa = PBXTargetDependency;
 			target = 82C2F5B830726B71008EBA01 /* TaskCatchupWidgetsExtension */;
 			targetProxy = 82C2F5C930726B73008EBA01 /* PBXContainerItemProxy */;
+		};
+		82C2F6C630727964008EBA01 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 82C2F6B830727964008EBA01 /* TaskCatchupNotification */;
+			targetProxy = 82C2F6C530727964008EBA01 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -695,6 +787,64 @@
 			};
 			name = Release;
 		};
+		82C2F6C830727964008EBA01 /* Debug configuration for PBXNativeTarget "TaskCatchupNotification" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = TaskCatchupNotification/TaskCatchupNotification.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TaskCatchupNotification/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TaskCatchupNotification;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bowen.TaskCatchupV2.TaskCatchupNotification;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		82C2F6C930727964008EBA01 /* Release configuration for PBXNativeTarget "TaskCatchupNotification" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = TaskCatchupNotification/TaskCatchupNotification.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TaskCatchupNotification/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TaskCatchupNotification;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bowen.TaskCatchupV2.TaskCatchupNotification;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -735,6 +885,14 @@
 			buildConfigurations = (
 				82C2F5CD30726B73008EBA01 /* Debug configuration for PBXNativeTarget "TaskCatchupWidgetsExtension" */,
 				82C2F5CE30726B73008EBA01 /* Release configuration for PBXNativeTarget "TaskCatchupWidgetsExtension" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		82C2F6CB30727964008EBA01 /* Build configuration list for PBXNativeTarget "TaskCatchupNotification" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82C2F6C830727964008EBA01 /* Debug configuration for PBXNativeTarget "TaskCatchupNotification" */,
+				82C2F6C930727964008EBA01 /* Release configuration for PBXNativeTarget "TaskCatchupNotification" */,
 			);
 			defaultConfigurationName = Release;
 		};
