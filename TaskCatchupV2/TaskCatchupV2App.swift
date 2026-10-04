@@ -11,11 +11,18 @@ import CoreData
 @main
 struct TaskCatchupV2App: App {
     let persistenceController = PersistenceController.shared
+    
+    // Checks the device to see if this is the first time opening the app
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
 
     var body: some Scene {
         WindowGroup {
-            MainTabView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            if hasCompletedOnboarding {
+                MainTabView()
+                    .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            } else {
+                OnboardingView()
+            }
         }
     }
 }
