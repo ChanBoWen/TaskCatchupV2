@@ -166,4 +166,86 @@ struct TaskCatchupTests {
         #expect(savedSchedules?.count == initialCount + 1)
         #expect(savedSchedules?.contains(where: { $0.title == "Future Exam" }) == true)
     }
+    
+    // AddNewDailyGoalUseCase Tests
+    @Test func test_addGoal_revokesStreak_ifAlreadyEarnedToday() throws {
+        let useCase = AddNewDailyGoalUseCase()
+        
+        // Sample data for testing
+        // Set as already finished all goals and streak plus 1
+        var profile = StudentProfile(name: "Alex", dailyStreak: 5)
+        profile.lastStreakDate = Date()  // Set the streak was earned today
+        
+        // Add a new goal
+        let result = try useCase.execute(title: "Emergency Homework", category: .academic, isRecurring: false, profile: profile)
+        
+        // Streak successfully revokes to 4
+        #expect(result.updatedProfile.dailyStreak == 4)
+    }
+    
+    // PurchaseVoucherUseCase Tests
+    @Test func test_purchaseVoucher_fails_whenBalanceIsInsufficient() {
+        let useCase = PurchaseVoucherUseCase()
+        
+        // Sample data for testing
+        let profile = StudentProfile(name: "Alex", balancePoints: 20)
+        
+        // Try to buy a 50 BP item and it successfully shows lacking 30 BP
+        #expect(throws: TaskCatchupError.insufficientBalance(shortage: 30)) {
+            try useCase.execute(voucher: .restDay, cost: 50, profile: profile)
+        }
+    }
+    
+    // PurchaseVoucherUseCase Tests
+    @Test func test_purchaseVoucher_succeeds_andAddsVoucherToInventory() throws {
+        let useCase = PurchaseVoucherUseCase()
+        
+        // Sample data for testing
+        let profile = StudentProfile(name: "Alex", balancePoints: 100)
+        
+        let updatedProfile = try useCase.execute(voucher: .restDay, cost: 50, profile: profile)
+        
+        #expect(updatedProfile.balancePoints == 50)  // Deducted 50
+        #expect(updatedProfile.activeVouchers.contains(.restDay) == true)  // Inventory contains the redeemed voucher
+    }
+    
+    // DailyResetUseCase Tests
+    @Test func test_dailyReset_clearsNonRecurringGoals_andUnticksRecurringGoals_whenNewDayBegins() {
+        let useCase = DailyResetUseCase()
+        
+        // Sample data for testing
+        let oneOffGoal = DailyGoal(title: "Do Homework", category: .academic, isRecurring: false, rewardPoints: 20)
+        var recurringGoal = DailyGoal(title: "Drink Water", category: .rest, isRecurring: true, rewardPoints: 5)
+        recurringGoal.isCompleted = true
+        
+        let result = useCase.execute(currentGoals: [oneOffGoal, recurringGoal])
+        
+        // The one-off goal should be removed
+        #expect(result.goalsToDelete.count == 1)
+        #expect(result.goalsToDelete.first?.title == "Do Homework")
+        
+        // The recurring goal should be reset to incomplete
+        #expect(result.goalsToReset.count == 1)
+        #expect(result.goalsToReset.first?.title == "Drink Water")
+        #expect(result.goalsToReset.first?.isCompleted == false)
+    }
+    
+    // ResetDailyScheduleUseCase Tests
+    @Test func test_resetDailySchedule_clearsYeserdayEvents() {
+        let useCase = ResetDailyScheduleUseCase()
+        let calendar = Calendar.current
+        
+        // Create an event that ended yesterday
+        let yesterday = calendar.date(byAdding: .day, value: -1, to: Date())!
+        let pastEvent = DailySchedule(title: "Yesterday's Class", startTime: yesterday, endTime: yesterday.addingTimeInterval(3600), category: .academic)
+        
+        // Create an event happening right now
+        let todayEvent = DailySchedule(title: "Today's Class", startTime: Date(), endTime: Date().addingTimeInterval(3600), category: .academic)
+        
+        let schedulesToDelete = useCase.execute(currentSchedules: [pastEvent, todayEvent])
+        
+        // Event from yesterday should be deleleted
+        #expect(schedulesToDelete.count == 1)
+        #expect(schedulesToDelete.first?.title == "Yesterday's Class")
+    }
 }
