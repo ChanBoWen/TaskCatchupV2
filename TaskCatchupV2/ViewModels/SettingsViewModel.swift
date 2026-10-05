@@ -28,6 +28,8 @@ class SettingsViewModel: ObservableObject {
         }
     }
     
+    @Published var showPermissionError: Bool = false
+    
     private let manageReminderUseCase = ManageDailyReminderUseCase()
     
     init() {
@@ -45,7 +47,19 @@ class SettingsViewModel: ObservableObject {
     private func updateNotificationStatus() {
         if isReminderEnabled {
             Task {
-                try? await manageReminderUseCase.scheduleReminder(at: reminderTime)
+                do {
+                    let success = try await manageReminderUseCase.scheduleReminder(at: reminderTime)
+                    
+                    if !success {
+                        // Force the toggle back off
+                        self.isReminderEnabled = false
+                        
+                        // Show the alert telling them to go to the iOS Settings app
+                        self.showPermissionError = true
+                    }
+                } catch {
+                    self.isReminderEnabled = false
+                }
             }
         } else {
             manageReminderUseCase.cancelReminder()

@@ -96,6 +96,19 @@ struct SettingsView: View {
                 }
             }
         }
+        // Handles the Permission Denied state
+        .alert("Permission Denied", isPresented: $viewModel.showPermissionError) {
+            Button("Cancel", role: .cancel) { }
+            
+            // Button to move to iOS Settings App
+            Button("Open Settings") {
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url)
+                }
+            }
+        } message: {
+            Text("Please enable notifications for TaskCatchup in your iPhone Settings to use daily reminders.")
+        }
     }
 }
 

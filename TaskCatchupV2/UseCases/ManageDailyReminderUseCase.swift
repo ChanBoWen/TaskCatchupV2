@@ -14,12 +14,22 @@ import UserNotifications
 /// 
 struct ManageDailyReminderUseCase {
     // Requests permission and schedules the daily reminder at the specified time
-    func scheduleReminder(at time: Date) async throws {
+    func scheduleReminder(at time: Date) async throws -> Bool  {
         let centre = UNUserNotificationCenter.current()
         
+        // Check current permission status
+        let settings = await centre.notificationSettings()
+        
         // Request permission from the user
-        let granted = try await centre.requestAuthorization(options: [.alert, .sound, .badge])
-        guard granted else { return }
+        if settings.authorizationStatus == .notDetermined {
+            // First time asking!
+            let granted = try await centre.requestAuthorization(options: [.alert, .sound, .badge])
+            
+            // User clicked "Don't Allow"
+            guard granted else { return false }
+        } else if settings.authorizationStatus == .denied {
+            return false
+        }
         
         // Clear any old reminders
         centre.removeAllPendingNotificationRequests()
@@ -27,7 +37,7 @@ struct ManageDailyReminderUseCase {
         // Create the Notification Content
         let content = UNMutableNotificationContent()
         content.title = "Plan Your Day!"
-        content.body = "Open TaskCatchup to maintain your streak and crush today's goals."
+        content.body = "Open TaskCatchup to crush today's goals and maintain your streak."
         content.sound = .default
         content.categoryIdentifier = "DailyReminderCategory"
         
@@ -40,6 +50,7 @@ struct ManageDailyReminderUseCase {
         let request = UNNotificationRequest(identifier: "daily_planning_reminder", content: content, trigger: trigger)
         
         try await centre.add(request)
+        return true
     }
     
     // Cancels the daily reminder if turned off

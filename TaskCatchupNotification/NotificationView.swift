@@ -26,7 +26,7 @@ struct NotificationView: View {
             }
             
             if let profile = profile {
-                Text("Hey \(profile.name), don't break your streak! Set your goals and schedule for today to stay on top of your workload.")
+                Text("Hey \(profile.name), don't break your streak! Set your goals and schedule your events for today to stay on top of your workload.")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
