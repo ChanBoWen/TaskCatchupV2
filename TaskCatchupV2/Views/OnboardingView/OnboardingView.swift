@@ -13,7 +13,7 @@ import SwiftUI
 struct OnboardingView: View {
     @StateObject private var viewModel = OnboardingViewModel()
     
-    // Connects to UserDefaults to remember they finished onboarding
+    // Connects to UserDefaults to remember onboarding is finished
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding: Bool = false
     
     var body: some View {

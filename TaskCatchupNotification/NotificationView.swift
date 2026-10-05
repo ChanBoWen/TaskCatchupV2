@@ -46,6 +46,7 @@ struct NotificationView: View {
                     VStack {
                         Text("Current Level")
                             .font(.caption)
+                        
                         Text("Level \(profile.currentLevel) ⭐️")
                             .fontWeight(.bold)
                             .foregroundColor(.orange)

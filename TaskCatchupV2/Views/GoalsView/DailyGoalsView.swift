@@ -96,7 +96,7 @@ struct DailyGoalsView: View {
         ) {
             // Dynamically show the use voucher button only if available
             if let profile = viewModel.profile, profile.activeVouchers.contains(.freeDelete) {
-                Button("Use Free Delete Token", role: .none) {
+                Button("Use Free Delete Voucher", role: .none) {
                     if let goal = goalToDelete {
                         viewModel.removeGoal(goal, useFreeDeleteVoucher: true)
                     }
