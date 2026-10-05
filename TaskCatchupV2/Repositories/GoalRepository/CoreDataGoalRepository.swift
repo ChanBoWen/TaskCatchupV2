@@ -80,7 +80,7 @@ class CoreDataGoalRepository: GoalRepository {
         }
     }
     
-    // Fetches the goals that are not completed yet
+    // Fetches the goals that are not completed yet to show in the widget
     func fetchIncompleteGoals() throws -> [DailyGoal] {
         let request: NSFetchRequest<DailyGoalEntity> = DailyGoalEntity.fetchRequest()
         

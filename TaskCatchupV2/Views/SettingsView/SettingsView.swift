@@ -7,41 +7,92 @@
 
 import SwiftUI
 
-/// Displays  the app settings.
+/// Displays the app settings.
 ///
 struct SettingsView: View {
     @StateObject private var viewModel = SettingsViewModel()
     
     var body: some View {
-        VStack(spacing: 20) {
-            Image(systemName: "gearshape.fill")
-                .font(.system(size: 60))
-                .foregroundColor(.gray)
-            
-            Text("Settings")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-        }
-        .padding()
-        
-        Form {
-            Section(header: Text("Notifications"), footer: Text("When turned on, a rich notification will be send to remind you to set your goals.\nLong-press the notification to see your current stats!")) {
-                
-                // Button to turn the notification on
-                Toggle("Daily Planning Reminder", isOn: $viewModel.isReminderEnabled)
-                
-                // Select the time to receive notification
-                if viewModel.isReminderEnabled {
-                    DatePicker("Reminder Time", selection: $viewModel.reminderTime, displayedComponents: .hourAndMinute)
+        NavigationStack {
+            Form {
+                // Header section
+                Section {
+                    VStack(spacing: 12) {
+                        Image(systemName: "gearshape.fill")
+                            .font(.system(size: 48, weight: .medium))
+                            .foregroundStyle(
+                                LinearGradient(
+                                    colors: [.blue, .cyan],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .padding(.top, 8)
+                        
+                        Text("Settings")
+                            .font(.title2)
+                            .fontWeight(.semibold)
+                            .foregroundStyle(.primary)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.bottom, 8)
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets())
                 }
-            }
-            
-            Section(header: Text("About")) {
-                HStack {
-                    Text("Version")
-                    Spacer()
-                    Text("2.0 (A3)")
-                        .foregroundColor(.secondary)
+                
+                // Notifications section
+                Section {
+                    Toggle(isOn: $viewModel.isReminderEnabled) {
+                        Label {
+                            Text("Daily Planning Reminder")
+                        } icon: {
+                            Image(systemName: "bell.badge.fill")
+                                .foregroundStyle(.orange)
+                        }
+                    }
+                    .tint(.orange)
+                    
+                    if viewModel.isReminderEnabled {
+                        DatePicker(
+                            selection: $viewModel.reminderTime,
+                            displayedComponents: .hourAndMinute
+                        ) {
+                            Label {
+                                Text("Reminder Time")
+                            } icon: {
+                                Image(systemName: "clock.fill")
+                                    .foregroundStyle(.blue)
+                            }
+                        }
+                        .transition(.opacity.combined(with: .move(edge: .top)))
+                    }
+                } header: {
+                    Text("Notifications")
+                } footer: {
+                    Text("When enabled, a rich notification will remind you to set your goals.\nLong-press the notification to see your current stats.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                }
+                .animation(.easeInOut(duration: 0.25), value: viewModel.isReminderEnabled)
+                
+                // About section
+                Section {
+                    HStack {
+                        Label {
+                            Text("Current Version")
+                        } icon: {
+                            Image(systemName: "info.circle.fill")
+                                .foregroundStyle(.secondary)
+                        }
+                        
+                        Spacer()
+                        
+                        Text("2.0")
+                            .foregroundStyle(.secondary)
+                            .fontWeight(.medium)
+                    }
+                } header: {
+                    Text("About")
                 }
             }
         }
